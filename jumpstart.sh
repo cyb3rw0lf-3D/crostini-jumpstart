@@ -27,9 +27,6 @@ sudo apt install kmod -y
 wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_11.2.0_all.deb
 sudo dpkg -i kxstudio-repos_11.2.0_all.deb
 sudo apt-get install lmms -y
-wget https://github.com/Ultimaker/Cura/releases/download/5.10.2/UltiMaker-Cura-5.10.2-linux-X64.AppImage
-mv UltiMaker-Cura-5.10.2-linux-X64.AppImage Ultimaker-Cura.AppImage
-chmod +x Ultimaker-Cura.AppImage
 wget https://archive.org/download/hollow-knight-1.5.78.11833-linux-drmfree/Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip
 unzip Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip -d /mnt/chromeos/removable/devSD/hollow
 sudo rm -rf Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip

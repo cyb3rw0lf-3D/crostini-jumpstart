@@ -6,12 +6,9 @@ sudo dpkg --add-architecture i386
 sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources
 sudo apt update
 sudo apt install --install-recommends winehq-stable -y
-sudo apt install software-properties-common -y
-sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable
-sudo apt install qbittorrent -y
-sudo add-apt-repository ppa:libretro/stable 
-sudo apt-get update 
-sudo apt-get install retroarch
+sudo apt update -y 
+sudo apt install -y qbittorrent
+sudo apt install retroarch -y
 sudo apt install flatpak -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub org.prismlauncher.PrismLauncher -y -v

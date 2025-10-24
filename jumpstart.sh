@@ -10,13 +10,15 @@ sudo apt install fuse -y
 sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable
 sudo apt install qbittorrent -y
+sudo add-apt-repository ppa:libretro/stable 
+sudo apt-get update 
+sudo apt-get install retroarch
 sudo apt install flatpak -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub org.prismlauncher.PrismLauncher -y -v
 flatpak install flathub ru.linux_gaming.PortProton -y -v
 flatpak install flathub com.vysp3r.ProtonPlus -y -v
-flatpak install flathub org.phoenicis.playonlinux -y -v
-flatpak install flathub dev.mrquantumoff.mcmodpackmanager -y -v
+flatpak install flathub com.ultimaker.cura
 sudo apt remove vim -y 
 sudo apt autoremove -y 
 sudo apt install nano -y
@@ -30,7 +32,6 @@ mv UltiMaker-Cura-5.10.2-linux-X64.AppImage Ultimaker-Cura.AppImage
 chmod +x Ultimaker-Cura.AppImage
 wget https://archive.org/download/hollow-knight-1.5.78.11833-linux-drmfree/Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip
 unzip Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip -d /mnt/chromeos/removable/devSD/hollow
-chmod +x gog_undertale_2.0.0.1.sh && ./gog_undertale_2.0.0.1.sh
 sudo rm -rf Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip
 sudo apt-get install zenity -y
 sudo apt update -y
@@ -53,6 +54,7 @@ sudo unzip PokeMMO.zip /pokemmo/
 unzip Pokemon_Black_Version.zip -d /home/xj439912/pokemon/
 chmod +x PokeMMO.sh
 sh PokeMMO.sh
+unzip undertale.zip -d /home/xj439912/undertale
 clear
 echo Setup finished! Rebooting in 5 seconds...
 sleep 5s

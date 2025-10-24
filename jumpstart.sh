@@ -6,7 +6,6 @@ sudo dpkg --add-architecture i386
 sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources
 sudo apt update
 sudo apt install --install-recommends winehq-stable -y
-sudo apt install fuse -y
 sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable
 sudo apt install qbittorrent -y
@@ -38,12 +37,7 @@ curl -L "https://go.microsoft.com/fwlink/?LinkID=760868" > /tmp/vscode.deb
 sudo dpkg -i /tmp/vscode.deb 
 sudo apt-get install -f
 sudo echo -e "[Desktop Entry]\nName=VSCode\nComment=Visual Studio Code\nExec=/opt/vscode/Code\nIcon=/opt/vscode/resources/app/resources/linux/code.png\nType=Application\nVersion=1.0\nTerminal=false\nCategories=Development" > /usr/share/applications/vscode.desktop
-sudo apt install libfuse2
-wget https://github.com/kleineluka/burial/releases/download/release-1.5/burial_1.5.0_LINUX_amd64.AppImage
-mv burial_1.5.0_LINUX_amd64.AppImage burial.AppImage
 sudo apt install libopengl0 -y
-chmod +x burial.AppImage
-./burial.AppImage
 git clone https://github.com/joedefen/crostini-kde-setup.git
 bash crostini-kde-setup/kde-setup.sh
 curl -L https://pokemmo.com/download_file/1/ > PokeMMO.zip

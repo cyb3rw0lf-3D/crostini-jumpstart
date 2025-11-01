@@ -10,13 +10,15 @@ sudo apt update -y
 sudo apt install -y qbittorrent
 sudo apt install retroarch -y
 sudo apt install flatpak -y
-bash -ci "$(wget -qO - 'https://shlink.makedeb.org/install')"
+wget -qO - 'https://proget.makedeb.org/debian-feeds/makedeb.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/makedeb-archive-keyring.gpg 1> /dev/null
+echo 'deb [signed-by=/usr/share/keyrings/makedeb-archive-keyring.gpg arch=all] https://proget.makedeb.org/ makedeb main' | sudo tee /etc/apt/sources.list.d/makedeb.list
+sudo apt update -y
+sudo apt install makedeb -y
 wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
 echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
 sudo apt update -y
 sudo apt install prismlauncher -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub ru.linux_gaming.PortProton -y
 flatpak install flathub ru.linux_gaming.PortProton -y
 flatpak install flathub com.ultimaker.cura
 sudo apt remove vim -y 
@@ -38,9 +40,6 @@ curl -L "https://go.microsoft.com/fwlink/?LinkID=760868" > /tmp/vscode.deb
 sudo dpkg -i /tmp/vscode.deb 
 sudo apt-get install -f
 sudo echo -e "[Desktop Entry]\nName=VSCode\nComment=Visual Studio Code\nExec=/opt/vscode/Code\nIcon=/opt/vscode/resources/app/resources/linux/code.png\nType=Application\nVersion=1.0\nTerminal=false\nCategories=Development" > /usr/share/applications/vscode.desktop
-sudo apt install libopengl0 -y
-git clone https://github.com/joedefen/crostini-kde-setup.git
-bash crostini-kde-setup/kde-setup.sh
 curl -L https://pokemmo.com/download_file/1/ > PokeMMO.zip
 sudo unzip PokeMMO.zip /pokemmo/
 unzip Pokemon_Black_Version.zip -d /home/xj439912/pokemon/

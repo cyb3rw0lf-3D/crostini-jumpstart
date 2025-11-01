@@ -16,8 +16,8 @@ echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 sudo apt update -y
 sudo apt install prismlauncher -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub ru.linux_gaming.PortProton -y -v
-flatpak install flathub com.vysp3r.ProtonPlus -y -v
+flatpak install flathub ru.linux_gaming.PortProton -y
+flatpak install flathub ru.linux_gaming.PortProton -y
 flatpak install flathub com.ultimaker.cura
 sudo apt remove vim -y 
 sudo apt autoremove -y 

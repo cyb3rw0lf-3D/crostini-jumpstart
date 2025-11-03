@@ -65,7 +65,8 @@ wget https://github.com/cyb3rw0lf-3D/crostini-jumpstart/raw/refs/heads/main/Proj
 unzip ProjectVenom-source-1.0.0.zip -d /home/xj439912/project-venom
 cd project-venom
 mvn clean package -DskipTests
-clear
+wget https://github.com/webtorrent/webtorrent-desktop/releases/download/v0.24.0/webtorrent-desktop_0.24.0_amd64.deb
+sudo apt install ./webtorrent-desktop_0.24.0_amd64.deb -y
 echo Setup finished! Rebooting in 5 seconds...
 sleep 5s
-logout
+exit

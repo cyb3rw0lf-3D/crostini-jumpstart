@@ -79,6 +79,6 @@ mvn clean package -DskipTests
 wget https://github.com/webtorrent/webtorrent-desktop/releases/download/v0.24.0/webtorrent-desktop_0.24.0_amd64.deb
 sudo apt install ./webtorrent-desktop_0.24.0_amd64.deb -y
 echo Setup finished! Rebooting in 5 seconds...
-echo You can now also play undertale! Execute ~/undertale.sh to start the game up!
+echo You can now also play Undertale! Execute ~/undertale.sh to start the game up!
 sleep 5s
 exit

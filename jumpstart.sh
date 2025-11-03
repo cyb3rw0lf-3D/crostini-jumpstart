@@ -6,21 +6,32 @@ sudo dpkg --add-architecture i386
 sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources
 sudo apt update
 sudo apt install --install-recommends winehq-stable -y
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install wine32 wine64 wine
+nano ~/undertale.sh
+chmod +x ~/undertale.sh
+echo 'export PATH="$PATH:$HOME"' >> ~/.bashrc
+source ~/.bashrc
+sudo dpkg --add-architecture i386
+sudo apt update -y
+sudo apt install wine wine32 wine64 winbind -y
+wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+chmod +x winetricks
+sudo mv winetricks /usr/local/bin/
 sudo apt update -y 
-sudo apt install -y qbittorrent
-sudo apt install retroarch -y
+wine --version
+winetricks --version
+winecfg
+winetricks corefonts vcrun2015
+sudo apt update -y
+sudo apt install innoextract unzip p7zip-full wine winetricks -y
+bash gog_undertale_2.0.0.1.sh --unpack
+wine ~/data/noarch/game/UNDERTALE.exe
+sudo apt install -y qbittorrent -y
 sudo apt install flatpak -y
-wget -qO - 'https://proget.makedeb.org/debian-feeds/makedeb.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/makedeb-archive-keyring.gpg 1> /dev/null
-echo 'deb [signed-by=/usr/share/keyrings/makedeb-archive-keyring.gpg arch=all] https://proget.makedeb.org/ makedeb main' | sudo tee /etc/apt/sources.list.d/makedeb.list
-sudo apt update -y
-sudo apt install makedeb -y
-wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
-echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
-sudo apt update -y
-sudo apt install prismlauncher -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub ru.linux_gaming.PortProton -y
-flatpak install flathub com.ultimaker.cura
+flatpak install flathub com.ultimaker.cura -y
 sudo apt remove vim -y 
 sudo apt autoremove -y 
 sudo apt install nano -y
@@ -68,5 +79,6 @@ mvn clean package -DskipTests
 wget https://github.com/webtorrent/webtorrent-desktop/releases/download/v0.24.0/webtorrent-desktop_0.24.0_amd64.deb
 sudo apt install ./webtorrent-desktop_0.24.0_amd64.deb -y
 echo Setup finished! Rebooting in 5 seconds...
+echo You can now also play undertale! Execute ~/undertale.sh to start the game up!
 sleep 5s
 exit

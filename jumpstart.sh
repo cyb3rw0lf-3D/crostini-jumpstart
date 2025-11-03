@@ -28,6 +28,8 @@ sudo apt update -y
 sudo apt install innoextract unzip p7zip-full wine winetricks -y
 bash gog_undertale_2.0.0.1.sh --unpack
 wine ~/data/noarch/game/UNDERTALE.exe
+https://github.com/NoRiskClient/noriskclient-launcher/releases/latest/download/NoRiskClient-Linux.deb
+sudo apt install ./NoRiskClient-Linux.deb -y
 sudo apt install -y qbittorrent -y
 sudo apt install flatpak -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo

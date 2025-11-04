@@ -6,28 +6,6 @@ sudo dpkg --add-architecture i386
 sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources
 sudo apt update
 sudo apt install --install-recommends winehq-stable -y
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt install wine32 wine64 wine
-nano ~/undertale.sh
-chmod +x ~/undertale.sh
-echo 'export PATH="$PATH:$HOME"' >> ~/.bashrc
-source ~/.bashrc
-sudo dpkg --add-architecture i386
-sudo apt update -y
-sudo apt install wine wine32 wine64 winbind -y
-wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
-chmod +x winetricks
-sudo mv winetricks /usr/local/bin/
-sudo apt update -y 
-wine --version
-winetricks --version
-winecfg
-winetricks corefonts vcrun2015
-sudo apt update -y
-sudo apt install innoextract unzip p7zip-full wine winetricks -y
-bash gog_undertale_2.0.0.1.sh --unpack
-wine ~/data/noarch/game/UNDERTALE.exe
 wget https://github.com/NoRiskClient/noriskclient-launcher/releases/latest/download/NoRiskClient-Linux.deb
 sudo apt install ./NoRiskClient-Linux.deb -y
 sudo apt install -y qbittorrent -y

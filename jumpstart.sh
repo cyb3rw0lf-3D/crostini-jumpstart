@@ -36,7 +36,6 @@ sudo unzip PokeMMO.zip /pokemmo/
 unzip Pokemon_Black_Version.zip -d /home/xj439912/pokemon/
 chmod +x PokeMMO.sh
 sh PokeMMO.sh
-unzip undertale.zip -d /home/xj439912/undertale
 sudo apt update -y 
 sudo apt upgrade -y 
 sudo apt install wget tar maven -y 

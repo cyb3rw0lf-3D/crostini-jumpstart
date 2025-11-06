@@ -20,11 +20,11 @@ sudo apt install kmod -y
 wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_11.2.0_all.deb
 sudo dpkg -i kxstudio-repos_11.2.0_all.deb
 sudo apt-get install lmms -y
-wget https://swr.cloud.blackmagicdesign.com/DaVinciResolve/v20.2.3/DaVinci_Resolve_20.2.3_Linux.zip?verify=1762399670-Fz9yA7bXFv%2BB8poojDIjnHsAQjHbheaIvnQS8biXWD4%3D
-unzip DaVinci_Resolve_20.2.3_Linux.zip -d /home/infernobookx/davinci
-cd davinci
-chmod +x DaVinci_Resolve_XX.Y.Z_Linux.run
-sudo ./DaVinci_Resolve_XX.Y.Z_Linux.run
+sudo apt update
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:openshot.developers/ppa
+sudo apt update
+sudo apt install openshot-qt python3-openshot -y
 wget https://archive.org/download/hollow-knight-1.5.78.11833-linux-drmfree/Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip
 unzip Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip -d /mnt/chromeos/removable/devSD/hollow
 sudo rm -rf Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip

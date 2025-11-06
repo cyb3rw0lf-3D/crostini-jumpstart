@@ -9,9 +9,12 @@ sudo apt install --install-recommends winehq-stable -y
 wget https://github.com/cyb3rw0lf-3D/crostini-jumpstart/raw/refs/heads/main/atlauncher-1.4-1.deb
 sudo apt install ./atlauncher-1.4-1.deb -y
 sudo apt install -y qbittorrent -y
+wget https://www.crossftp.com/crossftp_1.99.9.deb
+sudo apt install ./crossftp_1.99.9.deb -y
 sudo apt install flatpak -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.ultimaker.cura -y
+flatpak install flathub so.libdb.dissent -y
 sudo apt remove vim -y 
 sudo apt autoremove -y 
 sudo apt install nano -y
@@ -21,10 +24,7 @@ wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-re
 sudo dpkg -i kxstudio-repos_11.2.0_all.deb
 sudo apt-get install lmms -y
 sudo apt update
-sudo apt install software-properties-common -y
-sudo add-apt-repository ppa:openshot.developers/ppa
-sudo apt update
-sudo apt install openshot-qt python3-openshot -y
+bash <(wget -O - http://openshot.org/files/chromeos/install-stable.sh)
 wget https://archive.org/download/hollow-knight-1.5.78.11833-linux-drmfree/Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip
 unzip Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip -d /mnt/chromeos/removable/devSD/hollow
 sudo rm -rf Hollow_Knight_1.5.78.11833_LinuxDRMFree.zip

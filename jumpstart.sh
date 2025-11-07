@@ -34,6 +34,13 @@ sudo apt upgrade -y
 curl -L "https://go.microsoft.com/fwlink/?LinkID=760868" > /tmp/vscode.deb
 sudo dpkg -i /tmp/vscode.deb 
 sudo apt-get install -f
-sudo echo -e "[Desktop Entry]\nName=VSCode\nComment=Visual Studio Code\nExec=/opt/vscode/Code\nIcon=/opt/vscode/resources/app/resources/linux/code.png\nType=Application\nVersion=1.0\nTerminal=false\nCategories=Development" > /usr/share/applications/vscode.desktop
-sleep 5s
+sudo sh -c 'echo "[Desktop Entry]
+Name=Visual Studio Code
+Comment=Code Editing. Redefined.
+Exec=/usr/share/code/code --no-sandbox --unity-launch %F
+Icon=com.visualstudio.code
+Type=Application
+StartupNotify=false
+StartupWMClass=Code
+Categories=TextEditor;Development;IDE;" > /usr/share/applications/vscode.desktop'
 exit

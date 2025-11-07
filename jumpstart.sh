@@ -15,6 +15,7 @@ sudo apt install flatpak -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.ultimaker.cura -y
 flatpak install flathub so.libdb.dissent -y
+flatpak install flathub org.olivevideoeditor.Olive -y
 sudo apt remove vim -y 
 sudo apt autoremove -y 
 sudo apt install nano -y

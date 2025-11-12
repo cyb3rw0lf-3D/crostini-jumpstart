@@ -17,6 +17,7 @@ npm install
 
 # --- Build the web version ---
 echo "🔨 Building project..."
+sed -i 's/new Blob(\[payload\])/new Blob([payload as Uint8Array])/g' frontend/src/epoxy.ts
 npm run build
 
 # --- Inline everything into a single HTML file ---

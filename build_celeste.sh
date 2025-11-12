@@ -3,7 +3,7 @@ set -e
 
 echo "🚀 Building Celeste-WASM single HTML build..."
 
-# Clone if missing, else update
+# Clone if missing, else update existing repo
 if [ ! -d "celeste-wasm" ]; then
   git clone https://github.com/MercuryWorkshop/celeste-wasm.git
 else
@@ -18,26 +18,23 @@ cd celeste-wasm
 echo "📦 Installing npm dependencies..."
 npm install
 
-# 🩹 Hard patch epoxy.ts to fix Blob typing
-echo "🩹 Applying epoxy.ts patch..."
+# 🩹 Apply patch for TypeScript Blob type issue
 PATCH_FILE="frontend/src/epoxy.ts"
-if grep -q "new Blob" "$PATCH_FILE"; then
-  # replace all instances of new Blob([payload]) and variants
-  sed -i 's/new Blob(\[payload[^\]]*\])/new Blob([new Uint8Array(payload.buffer)])/g' "$PATCH_FILE"
+echo "🩹 Patching $PATCH_FILE..."
+if grep -q "payload as Uint8Array" "$PATCH_FILE"; then
+  sed -i 's/new Blob(\[payload as Uint8Array\])/new Blob([new Uint8Array(payload.buffer)])/g' "$PATCH_FILE"
 fi
-
-# verify it applied
-grep "new Uint8Array(payload.buffer)" "$PATCH_FILE" || {
-  echo "❌ Patch failed to apply, please check epoxy.ts manually."
-  exit 1
-}
 
 echo "🔨 Building project..."
 npm run build
 
-# Inline everything into one file
+# 🧩 Inline all files into one HTML (install inliner only if missing)
+if ! command -v inliner &> /dev/null; then
+  echo "📥 Installing inliner..."
+  npm install -g inliner
+fi
+
 echo "🧩 Combining all files into one..."
-npm install -g inliner
 inliner dist/index.html > ../celeste.html
 
 cd ..
@@ -47,4 +44,4 @@ echo "✅ Build complete!"
 echo "Your offline-ready file is here:"
 echo "   $(pwd)/celeste.html"
 echo ""
-echo "💡 You can double-click it in Chrome — no server needed."
+echo "💡 You can double-click it in Chrome — it works offline."

@@ -13,9 +13,9 @@ cd celeste-wasm
 echo "📦 Installing npm dependencies..."
 npm install
 
-# 🩹 Patch the epoxy.ts Blob type issue (automated)
+# 🩹 Patch the epoxy.ts Blob type issue (auto-fix)
 echo "🩹 Patching epoxy.ts type issue..."
-sed -i 's/new Blob(\[payload\])/new Blob([payload as Uint8Array])/g' frontend/src/epoxy.ts || true
+sed -i 's/new Blob(\[payload[^)]*\])/new Blob([new Uint8Array(payload.buffer)])/g' frontend/src/epoxy.ts || true
 
 echo "🔨 Building project..."
 npm run build

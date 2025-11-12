@@ -53,4 +53,5 @@ unzip celeste.zip -d /home/infernobook/celeste
 clear
 node -v
 npm -v
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/cyb3rw0lf-3D/crostini-jumpstart/refs/heads/main/build_celeste.sh)"
 exit

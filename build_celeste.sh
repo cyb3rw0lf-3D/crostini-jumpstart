@@ -1,98 +1,129 @@
 #!/bin/bash
-
-# Enable pnpm
-curl -fsSL https://get.pnpm.io/install.sh | sh -
-
-# Install .NET 9.0.4 SDK
-wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt update
-sudo apt install -y dotnet-sdk-9.0 
-
-# Install Mono (critical for this project)
-sudo apt update
-sudo apt install -y mono-devel
-
-# Increase Crostini memory (critical!)
-# Go to ChromeOS Settings > Developers > Linux > Memory > Set to 4GB or higher
 set -euo pipefail
 
-# Crostini-specific configuration
+# ──────────────────────────────────────────────────────────────
+# CONFIGURATION
+# ──────────────────────────────────────────────────────────────
 PROJECT_DIR="$HOME/celeste-wasm"
-OUTPUT_PATH="/mnt/chromeos/MyFiles/Downloads/celeste-offline.html" # Easy access from ChromeOS
-CHROMEOS_RAM_LIMIT=2048 # Crostini often limited to 2-4GB; Celeste needs ~600MB just to load
+OUTPUT_PATH="/mnt/chromeos/MyFiles/Downloads/celeste-offline.html"
+MIN_RAM_MB=3000
 
 # Colors
-GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
-log() { echo -e "${GREEN}🚀${NC} $1"; }
-warn() { echo -e "${YELLOW}⚠️${NC} $1"; }
-error() { echo -e "${RED}❌${NC} $1" >&2; exit 1; }
+GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; BLUE='\033[0;34m'; NC='\033[0m'
+log() { echo -e "${GREEN}[BUILD]${NC} $1"; }
+setup() { echo -e "${BLUE}[SETUP]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1" >&2; exit 1; }
 
-# Check Crostini environment
-if [[ ! -d "/mnt/chromeos" ]]; then
-    warn "Not running in Crostini? ChromeOS file sharing won't be available."
-    OUTPUT_PATH="$HOME/celeste-offline.html"
+# ──────────────────────────────────────────────────────────────
+# PREREQUISITE CHECK & INSTALL
+# ──────────────────────────────────────────────────────────────
+setup "Checking system prerequisites..."
+
+# Check for sudo access
+if ! sudo -v &>/dev/null; then
+    error "This script requires sudo access. Please run: sudo echo 'test' first"
 fi
 
-# Prerequisites check
-log "Checking prerequisites..."
-command -v git >/dev/null 2>&1 || error "git not found. Run: sudo apt update && sudo apt install git"
-command -v pnpm >/dev/null 2>&1 || error "pnpm not found. Install it: curl -fsSL https://get.pnpm.io/install.sh | sh -"
-command -v dotnet >/dev/null 2>&1 || error ".NET SDK not found. Install from: https://dotnet.microsoft.com/download"
-command -v mono >/dev/null 2>&1 || error "mono-devel not found. Run: sudo apt update && sudo apt install mono-devel"
+# Install system packages (idempotent)
+setup "Installing system packages (git, mono-devel)..."
+sudo apt update -qq
+sudo apt install -y -qq git mono-devel
 
-# Check available memory (critical for Crostini)
+# Install pnpm if missing
+if ! command -v pnpm &>/dev/null; then
+    setup "Installing pnpm..."
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
+    # Reload shell to get pnpm in PATH
+    export PNPM_HOME="$HOME/.local/share/pnpm"
+    export PATH="$PNPM_HOME:$PATH"
+fi
+
+# Install .NET SDK if missing
+if ! command -v dotnet &>/dev/null; then
+    setup "Installing .NET 9.0 SDK..."
+    wget -q https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+    sudo dpkg -i /tmp/packages-microsoft-prod.deb
+    sudo apt update -qq
+    sudo apt install -y -qq dotnet-sdk-9.0
+fi
+
+# Verify installations
+setup "Verifying installations..."
+command -v git >/dev/null || error "git installation failed"
+command -v pnpm >/dev/null || error "pnpm installation failed"
+command -v dotnet >/dev/null || error "dotnet installation failed"
+command -v mono >/dev/null || error "mono installation failed"
+
+# ──────────────────────────────────────────────────────────────
+# SYSTEM VALIDATION
+# ──────────────────────────────────────────────────────────────
+log "Validating system resources..."
+
+# RAM check
 AVAILABLE_RAM=$(free -m | awk 'NR==2{printf "%.0f", $2}')
-if (( AVAILABLE_RAM < 1500 )); then
-    error "Crostini has only ${AVAILABLE_RAM}MB RAM. celeste-wasm needs ~600MB. Increase RAM in ChromeOS Settings > Developers > Linux > Memory."
+if (( AVAILABLE_RAM < MIN_RAM_MB )); then
+    error "Insufficient RAM: ${AVAILABLE_RAM}MB available. Need ${MIN_RAM_MB}MB+. Increase in ChromeOS Settings > Developers > Linux"
 fi
 
-# Clone/update repo
-if [ ! -d "$PROJECT_DIR" ]; then
-    log "Cloning repository..."
-    git clone https://github.com/MercuryWorkshop/celeste-wasm.git "$PROJECT_DIR"
-else
-    log "Updating existing repository..."
-    cd "$PROJECT_DIR"
-    git fetch origin
-    if git diff-index --quiet HEAD --; then
-        git pull --rebase
-    else
-        warn "Local changes detected, skipping pull"
-    fi
+# Disk space check (build needs ~5GB)
+AVAILABLE_GB=$(df -BG "$HOME" | awk 'NR==2{sub(/G/,"",$4); print $4}')
+if (( AVAILABLE_GB < 10 )); then
+    error "Low disk space: ${AVAILABLE_GB}GB available. Need 10GB+ free."
 fi
 
+# ──────────────────────────────────────────────────────────────
+# PROJECT BUILD
+# ──────────────────────────────────────────────────────────────
+log "Starting celeste-wasm build..."
+
+# Fresh clone (removes old attempts)
+if [ -d "$PROJECT_DIR" ]; then
+    warn "Removing existing project directory..."
+    rm -rf "$PROJECT_DIR"
+fi
+
+log "Cloning repository..."
+git clone --depth=1 https://github.com/MercuryWorkshop/celeste-wasm.git "$PROJECT_DIR"
 cd "$PROJECT_DIR"
 
-# Install pnpm dependencies
 log "Installing pnpm dependencies..."
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile --silent
 
-# Setup .NET workloads (requires sudo)
 log "Setting up .NET workloads (requires sudo)..."
 cd loader
-sudo dotnet workload restore
+sudo dotnet workload restore --silent
 cd ..
 
-# Build for production
-log "Building celeste-wasm (this takes 5-10 minutes)..."
+log "Building project (this takes 5-10 minutes)..."
 make publish
 
-# Check if build succeeded
+# Verify build output
 if [ ! -f "dist/index.html" ]; then
-    error "Build failed: dist/index.html not found. Check output above for errors."
+    error "Build failed: dist/index.html not found"
 fi
 
-# Inline into single HTML file (use local inliner via npx)
-log "Creating offline-ready single file..."
+# ──────────────────────────────────────────────────────────────
+# INLINE ASSETS
+# ──────────────────────────────────────────────────────────────
+log "Inlining assets into single HTML file..."
 cd dist
 npx --yes inliner index.html > "$OUTPUT_PATH"
 
-log "✅ Build complete!"
-log "Your offline file is at: $OUTPUT_PATH"
-log "💡 On ChromeOS: Open Files app > Downloads > celeste-offline.html (double-click opens in Chrome)"
+# Verify final output
+if [ -f "$OUTPUT_PATH" ]; then
+    SIZE=$(du -h "$OUTPUT_PATH" | cut -f1)
+    log "✅ Build successful!"
+    log "📁 Output: $OUTPUT_PATH (${SIZE})"
+    log "💡 Open from ChromeOS Files app > Downloads (double-click to open in Chrome)"
+else
+    error "Inlining failed: output file not created"
+fi
 
-# Memory warning for runtime
+# Cleanup
+cd ..
+log "Cleaning up build directory..."
+rm -rf "$PROJECT_DIR"
+
 echo ""
-warn "IMPORTANT: Close other Linux apps before running celeste-wasm."
-warn "It needs ~600MB RAM. If Crostini crashes, increase RAM in Settings."
+log "🎉 All done! You can now run celeste-wasm offline in Chrome. Check your Downloads folder and try it out yourself! -past Xavier/SUPXRECHO"

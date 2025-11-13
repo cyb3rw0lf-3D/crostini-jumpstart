@@ -44,14 +44,8 @@ Type=Application
 StartupNotify=false
 StartupWMClass=Code
 Categories=TextEditor;Development;IDE;" > /usr/share/applications/vscode.desktop'
-sudo apt update
-sudo apt install nodejs npm -y
 wget https://download1654.mediafire.com/n4inhziymkqgfOBfAAMs9Y-Mn73WcYH0UkCnJzPJFt4IhstA0qUcNVxSrdVJSGqr5Gg6P_byfQPaekaBk73i4h8fDObRbfA53Nzy2sW4h_I8wZhQIbJz4zvAxTEESfc7vU9ZwgBaldX98lQL4HqjTQzZ03RFzlLr6U0esT0dPvOL/eye8shb5mo3v5zd/Celeste_%28v1.4.0.0%29_%5BLinux%5D+%28extract.me%29.zip
 mv Celeste_(v1.4.0.0)_[Linux]_(extract.me).zip celeste.zip
 mkdir celeste
 unzip celeste.zip -d /home/infernobook/celeste
 clear
-node -v
-npm -v
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/cyb3rw0lf-3D/crostini-jumpstart/refs/heads/main/build_celeste.sh)"
-exit

@@ -1,4 +1,20 @@
 #!/bin/bash
+
+# Enable pnpm
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# Install .NET 9.0.4 SDK
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt update
+sudo apt install -y dotnet-sdk-9.0 
+
+# Install Mono (critical for this project)
+sudo apt update
+sudo apt install -y mono-devel
+
+# Increase Crostini memory (critical!)
+# Go to ChromeOS Settings > Developers > Linux > Memory > Set to 4GB or higher
 set -euo pipefail
 
 # Crostini-specific configuration

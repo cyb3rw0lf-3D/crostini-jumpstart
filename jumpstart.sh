@@ -46,6 +46,22 @@ StartupWMClass=Code
 Categories=TextEditor;Development;IDE;" > /usr/share/applications/vscode.desktop'
 sudo apt update
 sudo apt install nodejs npm -y
+# Enable pnpm
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# Install .NET 9.0.4 SDK
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt update
+sudo apt install -y dotnet-sdk-9.0 
+
+# Install Mono (critical for this project)
+sudo apt update
+sudo apt install -y mono-devel
+
+# Increase Crostini memory (critical!)
+# Go to ChromeOS Settings > Developers > Linux > Memory > Set to 4GB or higher
+
 wget https://download1654.mediafire.com/n4inhziymkqgfOBfAAMs9Y-Mn73WcYH0UkCnJzPJFt4IhstA0qUcNVxSrdVJSGqr5Gg6P_byfQPaekaBk73i4h8fDObRbfA53Nzy2sW4h_I8wZhQIbJz4zvAxTEESfc7vU9ZwgBaldX98lQL4HqjTQzZ03RFzlLr6U0esT0dPvOL/eye8shb5mo3v5zd/Celeste_%28v1.4.0.0%29_%5BLinux%5D+%28extract.me%29.zip
 mv Celeste_(v1.4.0.0)_[Linux]_(extract.me).zip celeste.zip
 mkdir celeste

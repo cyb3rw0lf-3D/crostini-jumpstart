@@ -32,8 +32,9 @@ sudo apt upgrade -y
 curl -L "https://go.microsoft.com/fwlink/?LinkID=760868" > /tmp/vscode.deb
 sudo dpkg -i /tmp/vscode.deb 
 sudo apt-get install -f
-wget https://download1654.mediafire.com/n4inhziymkqgfOBfAAMs9Y-Mn73WcYH0UkCnJzPJFt4IhstA0qUcNVxSrdVJSGqr5Gg6P_byfQPaekaBk73i4h8fDObRbfA53Nzy2sW4h_I8wZhQIbJz4zvAxTEESfc7vU9ZwgBaldX98lQL4HqjTQzZ03RFzlLr6U0esT0dPvOL/eye8shb5mo3v5zd/Celeste_%28v1.4.0.0%29_%5BLinux%5D+%28extract.me%29.zip
-mv Celeste_(v1.4.0.0)_[Linux]_(extract.me).zip celeste.zip
+wget https://download1654.mediafire.com/jdai2nq84ahg2hrbcG-MWIBH30P0SAuDH1pQcGaCoHXlZFWzsXLfgb9vYac6QfMyFNKTjmktQJPqxlWffzk7hUMic_KIHu8YFL8xYUHt0zszdxFG0yOYHRHDErIPQR0wFCSmhfIQcswCTqMUywgMOhbhrQT8p-nqnrnsv_5_0VFgvg/eye8shb5mo3v5zd/Celeste_v1.4.zip
+mv Celeste_v1.4.zip celeste.zip
 mkdir celeste
 unzip celeste.zip -d /home/infernobook/celeste
+sudo rm -rf celeste.zip
 clear

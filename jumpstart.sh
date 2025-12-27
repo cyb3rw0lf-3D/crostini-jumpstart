@@ -11,6 +11,8 @@ sudo apt install ./atlauncher-1.4-1.deb -y
 sudo apt install -y qbittorrent -y
 wget https://www.crossftp.com/crossftp_1.99.9.deb
 sudo apt install ./crossftp_1.99.9.deb -y
+wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
+sudo apt install ./steam.deb -y
 sudo apt install flatpak -y
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.ultimaker.cura -y
